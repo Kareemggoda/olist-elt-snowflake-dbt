@@ -27,7 +27,6 @@ orders as (
 
 ),
 
--- دمج الجداول وتطبيق فلتر الـ Incremental في مكان واحد نظيف
 joined_data as (
 
     select 
@@ -50,7 +49,6 @@ joined_data as (
 
 )
 
--- الحسابات النهائية والعواميد المستهدفة
 select
     order_item_sk,
     order_id,
