@@ -1,0 +1,48 @@
+name: 'olist'
+version: '1.0.0'
+config-version: 2
+profile: 'olist_dbt' 
+model-paths:    ["models"]
+analysis-paths: ["analyses"]
+test-paths:     ["tests"]
+seed-paths:     ["seeds"]
+macro-paths:    ["macros"]
+snapshot-paths: ["snapshots"]
+target-path:    "target"
+clean-targets:  ["target", "dbt_packages"]
+
+models:
+  olist:
+    staging:
+      +schema:         staging
+      +materialized:   view
+      +tags:           ['staging']
+    intermediate:
+      +schema:         intermediate
+      +materialized:   ephemeral
+    marts:
+      +schema:         marts
+      +tags:           ['marts']
+      core:
+        +materialized: table
+        fct_orders:
+          +materialized: incremental
+          +unique_key:   order_id
+          +cluster_by:   ['order_purchase_date']
+        fct_order_items:
+          +materialized: incremental
+          +unique_key:   order_item_sk
+          +cluster_by:   ['shipping_limit_date']
+
+snapshots:
+  olist:
+    +target_schema: snapshots
+    +tags: ['snapshot']
+
+seeds:
+  olist:
+    +schema: raw
+    product_category_name_translation:
+      +column_types:
+        product_category_name:         varchar
+        product_category_name_english: varchar
