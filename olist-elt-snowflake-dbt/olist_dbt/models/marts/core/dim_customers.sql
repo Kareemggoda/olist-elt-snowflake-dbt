@@ -21,7 +21,6 @@ select
     s.customer_id,
     s.customer_unique_id,
     
-    -- 🛠️ بناخد الاسم المنظف النهائي للـ Mart
     s.customer_zip_code_prefix                            as zip_code_prefix, 
     s.customer_city,
     s.customer_state,
@@ -35,5 +34,4 @@ select
     s.dbt_updated_at
 
 from snapshot      s
--- 🛠️ بنربط الاسم القديم اللي جوه الـ Snapshot مع الاسم الجديد اللي جوه الـ Geolocation
 left join geo      g on s.customer_zip_code_prefix = g.zip_code_prefix
